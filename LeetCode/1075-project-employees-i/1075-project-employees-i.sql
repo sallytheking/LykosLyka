@@ -4,4 +4,4 @@ SELECT A.project_id
   FROM Project A
   JOIN Employee B ON A.employee_id = B.employee_id
  GROUP
-    BY A.project_id
+    BY A.project_id;
