@@ -1,22 +1,25 @@
 # Write your MySQL query statement below
+# 첫번째 연도 먼저 뽑고 합치기
 
-WITH cte AS
+With first AS
 (
-    SELECT
+ SELECT 
         product_id,
-        MIN(year) AS first_year,
+        MIN(YEAR) OVER(PARTITION BY PRODUCT_ID) AS first_year,
         quantity,
         price
-    FROM Sales
-    GROUP BY product_id 
+    FROM
+        Sales
 )
-
+    
 SELECT
-    S.product_id,
-    C.first_year,
-    S.quantity,
-    S.price
-FROM Sales S
-JOIN CTE C
-ON S.product_id = C.product_id
-AND S.year = C.first_year;
+    DISTINCT a.product_id,
+    b.first_year,
+    a.quantity,
+    a.price
+FROM Sales a
+JOIN first b
+ON a.product_id = b.product_id
+AND a.year = b.first_year;
+
+
